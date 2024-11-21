@@ -1,13 +1,46 @@
-# improved-norminnete-42
-A Bash script to recursively check all .c and .h files in the current directory and subdirectories using the Norminette code style checker. This script provides a summary of all coding standard issues and an issue count at the end.
-<img width="1343" alt="Screen Shot 2024-10-26 at 1 33 52 AM" src="https://github.com/user-attachments/assets/f1b80c15-44ee-4de2-b2f0-a4aca15d073a">
+# 42TOOLS
 
-Features
-Recursively checks all .c and .h files in the current directory and subdirectories.
-Makes the errors clickable with (COMMAND + mouse left click)
-Counts and displays the total number of Norminette issues.
+(WARNING  !!!)
+	Make sure to duplicate your folder before trying this script
 
-Notes
-If the script is not executable, run the following command:
-chmod +x norminette_script.sh
-<img width="555" alt="Screen Shot 2024-10-26 at 1 34 18 AM" src="https://github.com/user-attachments/assets/ac464da8-2369-4a0d-ac07-968c41778fda">
+A utility script designed to streamline the workflow for 42 projects. This script provides several functions, including running the Norminette checker, cleaning up project files, generating a `.gitignore` file, and setting up your project directories. It is especially useful for managing your 42 C projects with a clean and organized file structure.
+
+## Features
+
+1. **Run Norminette Checker**  
+   - Runs the Norminette linter on all `.c` and `.h` files in the project.
+   - Provides detailed output for each file, showing the number of errors and where they are located.
+   - Displays a final message based on the number of issues detected.
+
+2. **Clean Up Project Directory**  
+   - Prompts you to delete non-C source files, non-header files, and non-Makefile files from your project directory.
+   - Helps remove unnecessary files to keep your project clean and focused on C code.
+
+3. **Generate `.gitignore`**  
+   - Automatically generates a `.gitignore` file by adding non-C, non-header, and non-Makefile files to it.
+   - Keeps unnecessary files from being tracked by Git.
+
+4. **Setup Project Structure**  
+   - Creates `src/` and `include/` directories if they don't exist.
+   - Moves `.c` files to the `src/` directory and `.h` files to the `include/` directory.
+   - Updates the `Makefile` to reflect the correct paths for `SRCS` and `HEADER`.
+
+5. **Update Include Paths**  
+   - Updates the `#include` paths in all `.c` files to reference the `include/` directory.
+
+## Usage
+
+1. Make the script executable by running:
+
+   ```bash
+   chmod +x 42tools.sh
+
+2. Run the script by executing:
+
+./42tools.sh
+
+Requirements
+Norminette: This script assumes that you have Norminette installed and available in your PATH
+
+Note: Please ensure that you understand the changes this script will make to your project, especially when it comes to moving files and deleting unnecessary ones. Always keep backups of important files before running any script that modifies your project structure.
+
