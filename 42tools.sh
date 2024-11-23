@@ -137,6 +137,35 @@ run_gitignore() {
 	echo ".gitignore updated with non-C source files and non-Makefile entries."
 }
 
+# run_project_setup() {
+#     mkdir -p src include
+#     echo "Checking and moving source files..."
+
+#     for file in $(find . -maxdepth 1 -type f -name "*.c"); do
+#         mv "$file" "src/"
+#         echo "Moved $file to src/"
+#     done
+
+#     for file in $(find . -maxdepth 1 -type f -name "*.h"); do
+#         mv "$file" "include/"
+#         echo "Moved $file to include/"
+#     done
+
+#     echo "Updating Makefile paths..."
+#     if [[ -f Makefile ]]; then
+#         SRCS=$(find src/ -type f -name "*.c" | sed 's#//*#/#g' | sed 's#^#src/#' | tr '\n' ' ')
+#         sed -i'' -E "
+#             s#^SRCS *=.*#SRCS = $SRCS#;
+#         " Makefile
+#         echo "Makefile paths updated."
+#     else
+#         echo "Makefile not found. Skipping update."
+#     fi
+
+#     update_includes
+#     echo -e "${GREEN}Project setup completed successfully!${NC}"
+# }
+
 
 update_includes() {
     echo "Updating #include paths in .c files..."
@@ -151,74 +180,110 @@ update_includes() {
     echo "All #include paths updated successfully!"
 }
 
-run_project_setup() {
-    mkdir -p src include
-    c_files=()
-    h_files=()
+# run_project_setup() {
+#     mkdir -p src include
+#     echo "Checking and moving source files..."
 
-    echo "Checking and moving source files..."
+#     for file in $(find . -maxdepth 1 -type f -name "*.c"); do
+#         mv "$file" "src/"
+#         echo "Moved $file to src/"
+#     done
 
-    while IFS= read -r file; do
-        filename=$(basename "$file")
-        if [[ ! "$file" =~ ^src/ ]]; then
-            c_files+=("$file")
-        fi
-    done < <(find . -maxdepth 1 -type f -name "*.c")
+#     for file in $(find . -maxdepth 1 -type f -name "*.h"); do
+#         mv "$file" "include/"
+#         echo "Moved $file to include/"
+#     done
 
-    while IFS= read -r file; do
-        filename=$(basename "$file")
-        if [[ ! "$file" =~ ^include/ ]]; then
-            h_files+=("$file")
-        fi
-    done < <(find . -maxdepth 1 -type f -name "*.h")
+#     echo "Updating Makefile paths..."
+#     if [[ -f Makefile ]]; then
+#         # Dynamically find all .c files and ensure paths are normalized to start with "src/"
+#         SRCS=$(find src/ -type f -name "*.c" | sed 's#^src/##' | sed 's#^#src/#' | tr '\n' ' ')
+        
+#         # Update the SRCS line in the Makefile
+#         sed -i'' -E "
+#             s#^SRCS *=.*#SRCS = $SRCS#;
+#         " Makefile
+#         echo "Makefile paths updated."
+#     else
+#         echo "Makefile not found. Skipping update."
+#     fi
 
-    if [ ${#c_files[@]} -gt 0 ]; then
-        for file in "${c_files[@]}"; do
-            mv "$file" "src/"
-            echo "Moved $file to src/"
-        done
-    else
-        echo "No .c files needed to be moved."
-    fi
+#     # Update include paths in .c files (if needed)
+#     update_includes
+#     echo -e "${GREEN}Project setup completed successfully!${NC}"
+# }
 
-    if [ ${#h_files[@]} -gt 0 ]; then
-        for file in "${h_files[@]}"; do
-            mv "$file" "include/"
-            echo "Moved $file to include/"
-        done
-    else
-        echo "No .h files needed to be moved."
-    fi
 
-    echo "Updating Makefile paths..."
-    if [[ -f Makefile ]]; then
-		SRCS=$(find src/ -name "*.c" | sort | sed 's#^src/##' | tr '\n' ' ' | sed 's/ $//')
-		HEADER=$(find include/ -name "*.h" | sort | sed 's#^include/##' | tr '\n' ' ' | sed 's/ $//')
-		SRCS_WITH_PREFIX=$(find src/ -name "*.c" | sort | sed 's#^#src/#' | tr '\n' ' ' | sed 's/ $//')
-		HEADER_WITH_PREFIX=$(find include/ -name "*.h" | sort | sed 's#^#include/#' | tr '\n' ' ' | sed 's/ $//')
 
-sed -i'' -E "
-    s#SRCS *=.*#SRCS = $HEADER#;
-    s#HEADER *=.*#HEADER = $HEADER#;
-    s#OBJS *=.*#OBJS = \$(SRCS:.c=.o)#
-" Makefile
 
-		SRCS=$(echo "$SRCS" | sed 's#^#src/#' | tr '\n' ' ' | sed 's/ $//')
-        HEADER=$(echo "$HEADER" | sed 's#^#include/#g' | tr '\n' ' ' | sed 's/ $//')
-		sed -i'' -E "
-		s#SRCS *=.*#SRCS = src/init.c src/main.c src/parse.c src/routine.c src/test.c src/tools.c#;
-		s#HEADER *=.*#HEADER = include/philo.h#;
-		s#OBJS *=.*#OBJS = \$(SRCS:.c=.o)#
-	" Makefile
+# run_project_setup() {
+#     mkdir -p src include
+#     c_files=()
+#     h_files=()
 
-        echo "Makefile paths updated."
-    else
-        echo "Makefile not found. Skipping update."
-    fi
+#     echo "Checking and moving source files..."
 
-    update_includes
-    echo -e "${GREEN}Project setup completed successfully!${NC}"
-}
+#     while IFS= read -r file; do
+#         filename=$(basename "$file")
+#         if [[ ! "$file" =~ ^src/ ]]; then
+#             c_files+=("$file")
+#         fi
+#     done < <(find . -maxdepth 1 -type f -name "*.c")
+
+#     while IFS= read -r file; do
+#         filename=$(basename "$file")
+#         if [[ ! "$file" =~ ^include/ ]]; then
+#             h_files+=("$file")
+#         fi
+#     done < <(find . -maxdepth 1 -type f -name "*.h")
+
+#     if [ ${#c_files[@]} -gt 0 ]; then
+#         for file in "${c_files[@]}"; do
+#             mv "$file" "src/"
+#             echo "Moved $file to src/"
+#         done
+#     else
+#         echo "No .c files needed to be moved."
+#     fi
+
+#     if [ ${#h_files[@]} -gt 0 ]; then
+#         for file in "${h_files[@]}"; do
+#             mv "$file" "include/"
+#             echo "Moved $file to include/"
+#         done
+#     else
+#         echo "No .h files needed to be moved."
+#     fi
+
+#     echo "Updating Makefile paths..."
+#     if [[ -f Makefile ]]; then
+# 		SRCS=$(find src/ -name "*.c" | sort | sed 's#^src/##' | tr '\n' ' ' | sed 's/ $//')
+# 		HEADER=$(find include/ -name "*.h" | sort | sed 's#^include/##' | tr '\n' ' ' | sed 's/ $//')
+# 		SRCS_WITH_PREFIX=$(find src/ -name "*.c" | sort | sed 's#^#src/#' | tr '\n' ' ' | sed 's/ $//')
+# 		HEADER_WITH_PREFIX=$(find include/ -name "*.h" | sort | sed 's#^#include/#' | tr '\n' ' ' | sed 's/ $//')
+
+# sed -i'' -E "
+#     s#SRCS *=.*#SRCS = $HEADER#;
+#     s#HEADER *=.*#HEADER = $HEADER#;
+#     s#OBJS *=.*#OBJS = \$(SRCS:.c=.o)#
+# " Makefile
+
+# 		SRCS=$(echo "$SRCS" | sed 's#^#src/#' | tr '\n' ' ' | sed 's/ $//')
+#         HEADER=$(echo "$HEADER" | sed 's#^#include/#g' | tr '\n' ' ' | sed 's/ $//')
+# 		SRCS=$(find src/ -type f -name "*.c" | sed 's#^#src/#' | tr '\n' ' ')
+# sed -i'' -E "
+#     s#^SRCS *=.*#SRCS = $SRCS#;
+# " Makefile
+
+
+#         echo "Makefile paths updated."
+#     else
+#         echo "Makefile not found. Skipping update."
+#     fi
+
+#     update_includes
+#     echo -e "${GREEN}Project setup completed successfully!${NC}"
+# }
 echo -e "\n${BLUE}=== 42 Project Utility Script ===${NC}"
 echo -e "${GREEN}What would you like to do?${NC}"
 echo -e "${GREEN}1. Run Norminette Checker${NC}"
