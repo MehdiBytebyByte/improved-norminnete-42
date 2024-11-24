@@ -1,8 +1,18 @@
-#!/bin/bash
-> .gitignore
 for file in *; do
     if [[ ! $file =~ \.c$ && ! $file =~ \.h$ && $file != "Makefile" ]]; then
-        echo "$file" >> .gitignore
+        read -p "Do you want to delete '$file'? (y/n): " response
+        case "$response" in
+            [yY]) 
+                rm -rf "$file"
+                echo "'$file' has been deleted."
+                ;;
+            [nN]) 
+                echo "'$file' was not deleted."
+                ;;
+            *) 
+                echo "Invalid response. Skipping '$file'."
+                ;;
+        esac
     fi
 done
-echo ".gitignore updated with non-C source files and non-Makefile entries."
+echo "Cleanup process completed."
