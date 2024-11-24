@@ -1,7 +1,9 @@
 #!/bin/bash
 
-for file in *; do
-    if [[ ! $file =~ \.c$ && ! $file =~ \.h$ && $file != "Makefile" ]]; then
+# Use `find` to iterate over all files and directories
+find . -type f -o -type d | while read -r file; do
+    # Skip files ending with .c, .h, or named Makefile
+    if [[ ! $file =~ \.c$ && ! $file =~ \.h$ && $(basename "$file") != "Makefile" ]]; then
         read -p "Do you want to delete '$file'? (y/n): " response
         case "$response" in
             [yY]) 
