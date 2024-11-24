@@ -1,46 +1,21 @@
-# 42TOOLS
+# Welcome to the Most Useless Repository Ever!
 
-(WARNING  !!!)
-	Make sure to duplicate your folder before trying this script
+Congratulations on finding this repository! You're in for a treat with these three groundbreaking scripts that will revolutionize your coding experience. Or not.
 
-A utility script designed to streamline the workflow for 42 projects. This script provides several functions, including running the Norminette checker, cleaning up project files, generating a `.gitignore` file, and setting up your project directories. It is especially useful for managing your 42 C projects with a clean and organized file structure.
+## Script 1: Norminette Clicker
 
-## Features
+This script is so advanced that it can magically click the "Norminette" button for you. Just run it and watch the magic happen. It's like having your own personal code style police!
 
-1. **Run Norminette Checker**  
-   - Runs the Norminette linter on all `.c` and `.h` files in the project.
-   - Provides detailed output for each file, showing the number of errors and where they are located.
-   - Displays a final message based on the number of issues detected.
+## Script 2: .gitignore Generator Extraordinaire
 
-2. **Clean Up Project Directory**  
-   - Prompts you to delete non-C source files, non-header files, and non-Makefile files from your project directory.
-   - Helps remove unnecessary files to keep your project clean and focused on C code.
+Tired of manually creating .gitignore files? Fear not! This script will generate the most comprehensive .gitignore file you've ever seen. It knows exactly what files you don't want to commit, even before you do!
 
-3. **Generate `.gitignore`**  
-   - Automatically generates a `.gitignore` file by adding non-C, non-header, and non-Makefile files to it.
-   - Keeps unnecessary files from being tracked by Git.
+## Script 3: File Obliterator
 
-4. **Setup Project Structure**  
-   - Creates `src/` and `include/` directories if they don't exist.
-   - Moves `.c` files to the `src/` directory and `.h` files to the `include/` directory.
-   - Updates the `Makefile` to reflect the correct paths for `SRCS` and `HEADER`.
+Say goodbye to unnecessary files cluttering your project! This script will mercilessly delete any file it deems unnecessary. Who needs backups or caution, right? Just run it and watch your files vanish into thin air.
 
-5. **Update Include Paths**  
-   - Updates the `#include` paths in all `.c` files to reference the `include/` directory.
+## Disclaimer
 
-## Usage
+Please note that these scripts are purely for entertainment purposes and should not be taken seriously. Use them at your own risk, or better yet, don't use them at all.
 
-1. Make the script executable by running:
-
-   ```bash
-   chmod +x 42tools.sh
-
-2. Run the script by executing:
-
-./42tools.sh
-
-Requirements
-Norminette: This script assumes that you have Norminette installed and available in your PATH
-
-Note: Please ensure that you understand the changes this script will make to your project, especially when it comes to moving files and deleting unnecessary ones. Always keep backups of important files before running any script that modifies your project structure.
-
+Happy coding!
